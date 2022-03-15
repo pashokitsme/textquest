@@ -11,13 +11,17 @@ public class JsonSceneProvider : ISceneProvider
 
     public JsonSceneProvider(string path) => _path = path;
 
-    public SceneNode LoadRecusively()
+    public Node LoadRoot()
     {
-        var sceneData = Data.FirstOrDefault(scene => scene.Id == "initial");
-        if (sceneData == null)
+        var data = Data.FirstOrDefault(scene => scene.Id == "initial");
+        if (data == null)
             throw new ArgumentNullException("No initial scene");
 
-        return new SceneNode(sceneData, this);
+        var answers = new List<Answer>();
+        foreach (var ans in data.Answers)
+            answers.Add(new Answer(ans.Body, Load(ans.NextSceneId)));
+        
+        return new Node(data, answers);
     }
 
     public ISceneData Load(string sceneId) => Data.FirstOrDefault(scene => scene.Id == sceneId);

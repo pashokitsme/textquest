@@ -5,6 +5,6 @@ namespace Core.Data;
 
 public interface ISceneProvider
 {
-    SceneNode LoadRecusively();
+    Node LoadRoot();
     ISceneData Load(string sceneId);
 }
