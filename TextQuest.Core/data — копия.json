@@ -28,7 +28,7 @@
 					"body": "1234"
 				},
 				{
-					"next_id": "initial",
+					"next_id": "!parent",
 					"body": "назад"
 				}
 			]
@@ -53,7 +53,7 @@
 			"answers":
 			[
 				{
-					"next_id": "1",
+					"next_id": "!parent",
 					"body": "Вернуться назад"
 				}
 			]

@@ -21,6 +21,14 @@ public class App
         while (input != 0)
         {
             input = Input();
+
+            if (input == 9)
+            {
+                _hierarhy.Reset();
+                _view.Draw(_hierarhy.Current.Data);
+                continue;
+            }
+
             if (input < 1 || input > _hierarhy.Current.Childs.Count)
                 continue;
 

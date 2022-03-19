@@ -5,29 +5,29 @@ namespace Core.Scenes;
 public class Node
 {
     public List<Answer> Childs => _childs;
-    public List<ISceneData> Roots => _roots;
+    public ISceneData Root => _root;
     public ISceneData Data => _data;
 
     private readonly ISceneData _data;
-    private readonly List<ISceneData> _roots;
+    private readonly ISceneData _root;
     private readonly List<Answer> _childs;
 
-    public Node(ISceneData data, List<Answer> answers = null, List<ISceneData> roots = null)
+    public Node(ISceneData data, List<Answer> answers = null, ISceneData root = null)
     {
         _data = data;
         _childs = answers;
-        _roots = roots;
+        _root = root;
     }
 
-    public bool NextByAnswer(int answer, out ISceneData data)
+    public bool NextByAnswer(int index, out ISceneData data)
     {
         data = null;
         if (_childs == null || _childs.Count == 0)
             return false;
-        if (answer >= _childs.Count)
+        if (index >= _childs.Count)
             return false;
 
-        data = _childs[answer].NextScene;
+        data = _childs[index].NextScene;
         return data != null;
     }
 }

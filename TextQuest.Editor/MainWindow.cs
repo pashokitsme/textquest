@@ -1,36 +1,32 @@
 using Core.Data.Json;
-using Core.Scenes;
-using System.Runtime.InteropServices;
+using TextQuest.Logging;
 
 namespace TextQuest.Editor;
 
 public partial class MainWindow : Form
 {
-
-    [DllImport("kernel32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool AllocConsole();
-
-    private SceneDiagramDrawer _drawer;
-    private SceneNode _baseNode;
+    private SceneSettingsEditor _editor;
+    private NodeRenderer _nodeRenderer;
 
     public MainWindow() => InitializeComponent();
 
     private void Loaded(object sender, EventArgs e)
     {
-        AllocConsole();
-
-        var provider = new JsonSceneProvider(@"data.json");
-        _baseNode = provider.LoadRecusively();
-
-        _drawer = new SceneDiagramDrawer(provider, _baseNode, ScenesBox);
-        var node = _drawer.CreateDiagramNode(_baseNode.Data);
-        _drawer.DrawRecursively(_baseNode, node);
-
+        _nodeRenderer = new(this);
+        LoadSceneEditor(sender, e);
+        Logger.Log("Window loaded");
     }
 
-    private void LoadDiagramData(object sender, EventArgs e)
+    private void LoadSceneEditor(object sender, EventArgs e)
     {
+        Logger.Log("Editor loaded");
+        var provider = new JsonSceneProvider(@"data.json");
+        var root = provider.LoadRoot();
 
+        _editor = new SceneSettingsEditor(provider, root);
+        _nodeRenderer.Clicked += _editor.MoveTo;
+        _editor.ViewChanged += _nodeRenderer.RenderView;
+
+        _nodeRenderer.RenderView(root);
     }
 }

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TextQuest.Core\TextQuest.Core.csproj" />
+    <ProjectReference Include="..\TextQuest.Logger\TextQuest.Logger.csproj" />
   </ItemGroup>
 
   <ItemGroup>

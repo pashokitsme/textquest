@@ -1,3 +1,5 @@
+using TextQuest.Logging;
+
 namespace TextQuest.Editor;
 
 public static class Program

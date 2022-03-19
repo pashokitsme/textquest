@@ -20,6 +20,29 @@ public class SceneHierarhyProvider
         _current = _root;
     }
 
+    public Node SetCurrentNode(ISceneData data, ISceneData parent)
+    {
+        var answers = new List<Answer>(data.Answers.Count);
+        foreach (var ans in data.Answers)
+        {
+            var next = _provider.Load(ans.NextSceneId);
+            answers.Add(new Answer(ans.Body, next));
+        }
+
+        var current = new Node(data, answers, parent);
+        _previous = _current;
+        _current = current;
+
+        return current;
+    }
+
+    public void GoToPrevious()
+    {
+        var temp = _current;
+        _current = _previous;
+        _previous = temp;
+    }
+
     public bool Next(int answer)
     {
         if (_current.NextByAnswer(answer, out var data) == false)
@@ -28,11 +51,11 @@ public class SceneHierarhyProvider
         var answers = new List<Answer>(data.Answers.Count);
         foreach (var ans in data.Answers)
         {            
-            var next = ans.NextSceneId == "!parent" ? _current.Data : _provider.Load(ans.NextSceneId);
+            var next = ans.NextSceneId == _current.Data.Id ? _current.Data : _provider.Load(ans.NextSceneId);
             answers.Add(new Answer(ans.Body, next));
         }
 
-        var node = new Node(data, answers, new List<ISceneData>() { _current.Data });
+        var node = new Node(data, answers, _current.Data);
         _previous = _current;
         _current = node;
 
