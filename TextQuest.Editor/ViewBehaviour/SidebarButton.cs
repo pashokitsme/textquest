@@ -11,4 +11,10 @@ public static class SidebarButton
     {
         label.BackColor = Color.Transparent;
     }
+
+    public static void AddEffects(Label label)
+    {
+        label.MouseEnter += (_, _) => OnMouseEnter(label);
+        label.MouseLeave += (_, _) => OnMouseLeave(label);
+    }
 }

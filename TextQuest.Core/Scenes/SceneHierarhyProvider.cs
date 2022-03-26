@@ -20,6 +20,8 @@ public class SceneHierarhyProvider
         _current = _root;
     }
 
+    public Node SetCurrentNode(ISceneData data) => SetCurrentNode(data, _current.Data);
+
     public Node SetCurrentNode(ISceneData data, ISceneData parent)
     {
         var answers = new List<Answer>(data.Answers.Count);
